@@ -7,3 +7,4 @@ url = "172.16.9.248"
 s = requests.session()
 
 r = s.get(url)
+print r.text
