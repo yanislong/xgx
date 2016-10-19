@@ -8,3 +8,4 @@ s = requests.session()
 
 r = s.get(url)
 print r.text
+print r.status_code
