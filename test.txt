@@ -1,2 +1,9 @@
-#this is a test
-#this is computer browser chrome edit
+#!/bin/usr/python
+# -*- coding:utf-8 -*-
+
+import requests
+
+url = "172.16.9.248"
+s = requests.session()
+
+r = s.get(url)
