@@ -1,0 +1,72 @@
+import requests
+
+def top1():
+    url = "https://retcode.taobao.com/r.png"
+    param = {}
+    param['uid'] = "47b39840-3d52-473e-a836-100a0f8fd7b4"
+    param['userNick'] = ""
+    param['times'] = "1"
+    param['_t'] = "-177844507222"
+    param['tag'] = ""
+    param['type'] = "custom"
+    param['category'] = "count"
+    param['key'] = "dd_orgpage_home_encourage_click_ding"
+    param['sampling'] = "1"
+    param["spm"] = "dd.h5.home.orgHome"
+    head = {}
+    head['Host'] = "retcode.taobao.com"
+    head['User-Agent'] = "User-Agent: Mozilla/5.0 (Linux; U; Android 7.0; zh-CN; VIE-AL10 Build/HUAWEIVIE-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/11.6.6.951 UWS/2.11.0.42 Mobile Safari/537.36 AliApp(DingTalk/4.3.1) com.alibaba.android.rimet/0 Channel/227200 language/zh-CN"
+    head['Referer'] = "https://h5.dingtalk.com/home/orgHome.html?corpId=dinge71d6b3da475df2b35c2f4657eb6378f&from=contacts"
+    r = requests.get(url,headers=head,params=param)
+    print r.content
+    print r.headers
+
+def top2():
+    url = "https://retcode.taobao.com/r.png"
+    param = {}
+    param['uid'] = "47b39840-3d52-473e-a836-100a0f8fd7b4"
+    param['userNick'] = ""
+    param['times'] = "1"
+    param['_t'] = "-177844507623"
+    param['tag'] = ""
+    param['type'] = "custom"
+    param['category'] = "count"
+    param['key'] = "dd_orgpage_home_encourage_add_ding"
+    param['sampling'] = "1"
+    param["spm"] = "dd.h5.home.orgHome"
+    head = {}
+    head['Host'] = "retcode.taobao.com"
+    head['User-Agent'] = "User-Agent: Mozilla/5.0 (Linux; U; Android 7.0; zh-CN; VIE-AL10 Build/HUAWEIVIE-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/11.6.6.951 UWS/2.11.0.42 Mobile Safari/537.36 AliApp(DingTalk/4.3.1) com.alibaba.android.rimet/0 Channel/227200 language/zh-CN"
+    head['Referer'] = "https://h5.dingtalk.com/home/orgHome.html?corpId=dinge71d6b3da475df2b35c2f4657eb6378f&from=contacts"
+    r = requests.get(url,headers=head,params=param)
+    print r.content
+    print r.headers
+
+def top3():
+    url = "https://retcode.taobao.com/r.png"
+    param = {}
+    param['uid'] = "47b39840-3d52-473e-a836-100a0f8fd7b4"
+    param['userNick'] = ""
+    param['times'] = "1"
+    param['_t'] = "-177844517724"
+    param['tag'] = ""
+    param['api'] = "lwp:ChannelI.addOrgBump"
+    param['issucess'] = "true"
+    param['delay'] = "92"
+    param['msg'] = "200"
+    param['detail'] = "success"
+    param['type'] = "retcode"
+    param['sampling'] = "1"
+    param["spm"] = "dd.h5.home.orgHome"
+    head = {}
+    head['Host'] = "retcode.taobao.com"
+    head['User-Agent'] = "User-Agent: Mozilla/5.0 (Linux; U; Android 7.0; zh-CN; VIE-AL10 Build/HUAWEIVIE-AL10) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/11.6.6.951 UWS/2.11.0.42 Mobile Safari/537.36 AliApp(DingTalk/4.3.1) com.alibaba.android.rimet/0 Channel/227200 language/zh-CN"
+    head['Referer'] = "https://h5.dingtalk.com/home/orgHome.html?corpId=dinge71d6b3da475df2b35c2f4657eb6378f&from=contacts"
+    r = requests.get(url,headers=head,params=param)
+    print r.content
+    print r.headers
+
+if __name__ == "__main__":
+   # top1()
+    top2()
+    top3()
