@@ -62,8 +62,10 @@ def getRepon(**tl):
         r1 = requests.get(url1, headers=header1)
         h = bs4.BeautifulSoup(r1.content)
         bb = h.find_all(style="text-align: left")
- 
-        print bb[0]
+        try:
+            print "内容:\n"  + str(bb[0])
+        except IndexError:
+            break
 
 if __name__ == "__main__":
     for i in getLink():
