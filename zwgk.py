@@ -7,6 +7,7 @@ import sys
 import bs4
 import requests
 
+import mydata
 import config
 
 def getHtml(i=1):
@@ -19,7 +20,7 @@ def getHtml(i=1):
     return html
 
 def getLink(i=1):
-    html = getHtml(i)
+    global html
     link = html.find_all(id="info")
     for i in link:
         reslink = i.a['href']
@@ -49,11 +50,17 @@ def getRes(url):
     conp = "<html><head><meta charset='utf-8'></head>" + con + "</html>"
     tt = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     name = title[0].string + tt
-    with open('./document/' + name + '.html','w') as f:
-        f.write(conp)
+    mydd = {"title":title[0].string,"body":con}
+    mydata.inertdb(**mydd)
+#    with open('./document/' + name + '.html','w') as f:
+#        f.write(conp)
+#    sys.exit()
 
 if __name__ == "__main__":
     html = getHtml()
     num = getPageNum()
-    for i in (1,num):
+    print num
+    for i in range(144,num):
+        print i
         getLink(i)
+        time.sleep(1)
