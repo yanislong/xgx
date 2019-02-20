@@ -6,7 +6,7 @@ import pymysql
 
 import config
 
-def inertdb(**res):
+def insertdb(**res):
     con = pymysql.connect(**config.mydb)
     cursor = con.cursor()
     ct = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())

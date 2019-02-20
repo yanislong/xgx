@@ -4,6 +4,8 @@
 import requests
 import bs4
 
+import mydata
+
 def getRes(i=1):
     url = "http://www.syx.gov.cn/leadmail/front/findMail.do"
     header = {}
@@ -14,12 +16,15 @@ def getRes(i=1):
     data['page'] = i
     data['rows'] = 10
     r = requests.post(url, headers=header, data=data)
-    print r.content
+#    print r.content
     repon = r.json()["rows"]
-    for i in repon:
-        print i['mailtitle']
-        print i['mailtext']
-        print r"---------------分隔符------------------"
+    for j in repon:
+        p1 = j['mailtitle'].encode('utf-8')
+        p2 = j['mailtext'].encode('utf-8')
+#        res = {"title": str(i['mailtitle']),"body": str(i["mailtext"])}
+        res = {"title": p1,"body": p2}
+        mydata.insertdb(**res)
+    print r"---------------第" + str(i) + "页-----------------"
 
 def getPageNum(i=1):
     url = "http://www.syx.gov.cn/leadmail/front/findMail.do"

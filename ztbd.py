@@ -7,6 +7,8 @@ import json
 import requests
 import bs4
 
+import mydata
+
 def getLink():
     url = "http://www.syx.gov.cn"
     url_home = url + "/page/item1666/index.html"
@@ -63,9 +65,12 @@ def getRepon(**tl):
         h = bs4.BeautifulSoup(r1.content)
         bb = h.find_all(style="text-align: left")
         try:
-            print "内容:\n"  + str(bb[0])
+#            print "内容:\n"  + str(bb[0])
         except IndexError:
+            print "IndexError"
             break
+        mydd = {"title": l2[0],"body": str(bb[0])}
+        mydata.insertdb(**mydd)
 
 if __name__ == "__main__":
     for i in getLink():
