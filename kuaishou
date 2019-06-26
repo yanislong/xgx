@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+#-*-coding=utf-8 -*-
+
+import requests
+import json
+import re
+
+def getCookie():
+    global bro
+    url = "https://live.kuaishou.com/profile/CDDhehehe"
+    header = {}
+    header['User-Agent'] = bro
+    r = requests.get(url, headers=header)
+#    print(r.headers['Set-Cookie'])
+    l1 = re.compile(r'kuaishou.live.bfb1s=(.*?);')
+    l2 = re.compile(r'clientid=(.*?);')
+    l3 = re.compile(r'did=(.*?);')
+    l4 = re.compile(r'client_key=(.*?);')
+    ks = l1.findall(r.headers['Set-Cookie'])[0] + ";"
+    cid = l2.findall(r.headers['Set-Cookie'])[0] + ";"
+    did= l3.findall(r.headers['Set-Cookie'])[0] + ";"
+    ckey = l4.findall(r.headers['Set-Cookie'])[0]
+    cook = "kuaishou.live.bfb1s=" + str(ks) + " clientid=" + str(cid) + " did=" + str(did) + " client_key=" + str(ckey)
+#    print(cook)
+    realurl ="https://live.kuaishou.com/rest/wd/live/web/security?detectionPoint=%7B%22a%22%3Afalse%2C%22b%22%3Atrue%2C%22c%22%3Atrue%2C%22d%22%3Atrue%2C%22e%22%3Afalse%2C%22f%22%3Afalse%2C%22g%22%3Afalse%2C%22h%22%3Atrue%2C%22i%22%3Atrue%2C%22j%22%3Afalse%2C%22k%22%3Afalse%2C%22l%22%3Atrue%2C%22m%22%3Atrue%2C%22n%22%3Atrue%2C%22o%22%3Afalse%2C%22p%22%3Afalse%2C%22q%22%3Atrue%2C%22r%22%3Afalse%2C%22s%22%3Afalse%2C%22t%22%3Afalse%2C%22u%22%3Afalse%2C%22v%22%3Afalse%2C%22w%22%3Afalse%2C%22x%22%3Afalse%2C%22y%22%3Afalse%2C%22z%22%3Atrue%2C%22aa%22%3Afalse%2C%22bb%22%3Afalse%2C%22cc%22%3Afalse%2C%22dd%22%3Afalse%2C%22ee%22%3Afalse%2C%22ff%22%3Afalse%2C%22gg%22%3Afalse%2C%22hh%22%3Afalse%2C%22ii%22%3Afalse%2C%22jj%22%3Afalse%2C%22kk%22%3Afalse%2C%22ll%22%3Afalse%2C%22mm%22%3Afalse%2C%22nn%22%3Afalse%2C%22oo%22%3Afalse%2C%22pp%22%3A1%7D&collectInfo=%7B%22a%22%3A%22live.kuaishou.com%22%2C%22b%22%3A%22https%3A%2F%2Flive.kuaishou.com%2Fprofile%2FCDDhehehe%22%2C%22c%22%3A%22null%E7%9A%84%E4%B8%BB%E9%A1%B5-%E5%BF%AB%E6%89%8B%E7%9B%B4%E6%92%AD%22%2C%22d%22%3A%22https%3A%2F%2Flive.kuaishou.com%2Fu%2F3xrptqgjk98rism%2F3xnkvkeakap2m5u%22%2C%22e%22%3A%22Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F75.0.3770.100%20Safari%2F537.36%22%2C%22f%22%3A1080%2C%22g%22%3A1920%2C%22h%22%3A24%2C%22i%22%3A%22zh-CN%22%7D"
+#    header['Cookie'] = cook
+    r1 = requests.get(realurl, headers=header)
+    regurl = "https://live.kuaishou.com/graphql"
+    header['Content-Type'] = "application/json"
+    data = {"operationName":"GetCategoryList","variables":{"type":"brief","categoryCardList":True},"query":"query GetCategoryList($limit: Int, $type: String, $categoryCardList: Boolean) {\n  categoryList(limit: $limit, type: $type, categoryCardList: $categoryCardList) {\n    list {\n      id\n      categoryId\n      text\n      category\n      title\n      src\n      roomNumber\n      shortName\n      gameDescription\n      watchingCount\n      subList\n      __typename\n    }\n    __typename\n  }\n}\n"}
+    r2 = requests.post(regurl, headers=header, data=json.dumps(data))
+    print(r1.content)
+    return cook
+
+def getVideo():
+    global bro
+    url = "https://live.kuaishou.com/graphql"
+    header = {}
+    header['Content-Type'] = "application/json"
+    header['User-Agent'] = bro
+#    header['Cookie'] = "kuaishou.live.bfb1s=9b8f70844293bed778aade6e0a8f9942;clientid=3;did=web_fd04147063ca622059be9b9ffb9ecce7;client_key=65890b29"
+    header['Cookie'] =  getCookie()
+    print(header)
+    data = {"operationName":"GetVideoRecommendFeeds","variables":{"photoId":"3xnkvkeakap2m5u","count":10},"query":"query GetVideoRecommendFeeds($photoId: ID, $count: Int) {\n  videoRecommendFeeds(photoId: $photoId, count: $count) {\n    list {\n      user {\n        id\n        profile\n        name\n        __typename\n      }\n      ...VideoMainInfo\n      __typename\n    }\n    pcursor\n    __typename\n  }\n}\n\nfragment VideoMainInfo on VideoFeed {\n  photoId\n  caption\n  thumbnailUrl\n  poster\n  viewCount\n  likeCount\n  commentCount\n  timestamp\n  workType\n  type\n  playUrl\n  useVideoPlayer\n  imgUrls\n  imgSizes\n  magicFace\n  musicName\n  location\n  liked\n  onlyFollowerCanComment\n  width\n  height\n  expTag\n  __typename\n}\n"}
+    r = requests.post(url, headers=header, data=json.dumps(data))
+    print(r.content)
+    return None
+
+if __name__ == "__main__":
+    bro = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+#    getVideo()
+    getCookie()
