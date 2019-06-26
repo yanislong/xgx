@@ -38,15 +38,27 @@ def getVideo():
     header = {}
     header['Content-Type'] = "application/json"
     header['User-Agent'] = bro
-#    header['Cookie'] = "kuaishou.live.bfb1s=9b8f70844293bed778aade6e0a8f9942;clientid=3;did=web_fd04147063ca622059be9b9ffb9ecce7;client_key=65890b29"
-    header['Cookie'] =  getCookie()
+    header['Cookie'] = "kuaishou.live.bfb1s=9b8f70844293bed778aade6e0a8f9942;clientid=3;did=web_fd04147063ca622059be9b9ffb9ecce7;client_key=65890b29"
+#    header['Cookie'] =  getCookie()
     print(header)
     data = {"operationName":"GetVideoRecommendFeeds","variables":{"photoId":"3xnkvkeakap2m5u","count":10},"query":"query GetVideoRecommendFeeds($photoId: ID, $count: Int) {\n  videoRecommendFeeds(photoId: $photoId, count: $count) {\n    list {\n      user {\n        id\n        profile\n        name\n        __typename\n      }\n      ...VideoMainInfo\n      __typename\n    }\n    pcursor\n    __typename\n  }\n}\n\nfragment VideoMainInfo on VideoFeed {\n  photoId\n  caption\n  thumbnailUrl\n  poster\n  viewCount\n  likeCount\n  commentCount\n  timestamp\n  workType\n  type\n  playUrl\n  useVideoPlayer\n  imgUrls\n  imgSizes\n  magicFace\n  musicName\n  location\n  liked\n  onlyFollowerCanComment\n  width\n  height\n  expTag\n  __typename\n}\n"}
     r = requests.post(url, headers=header, data=json.dumps(data))
-    print(r.content)
+    for i in r.json()['data']['videoRecommendFeeds']['list']:
+        print(i['playUrl'])
+        print(i['caption'])
+        downVideo(i['playUrl'], i['caption'].strip())
+#    print(r.json())
     return None
+
+def downVideo(murl,title):
+    url = murl
+    r = requests.get(url)
+    with open(title + '.mp4','wb')as ff:
+        ff.write(r.content)
+    print(r.status_code)
+
 
 if __name__ == "__main__":
     bro = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
-#    getVideo()
-    getCookie()
+    getVideo()
+#    getCookie()
